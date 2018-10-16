@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StudentiDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Kolegij">
+    <Key>
+      <PropertyRef Name="KolegijId" />
+    </Key>
+    <Property Name="KolegijId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Trajanje" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Studenti" Relationship="Self.FK_Studenti_Kolegij" FromRole="Kolegij" ToRole="Studenti" />
+  </EntityType>
+  <EntityType Name="Studenti">
+    <Key>
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="StudentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OIB" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DatumRodenja" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="KolegijId" Type="Int32" />
+    <NavigationProperty Name="Kolegij" Relationship="Self.FK_Studenti_Kolegij" FromRole="Studenti" ToRole="Kolegij" />
+  </EntityType>
+  <Association Name="FK_Studenti_Kolegij">
+    <End Role="Kolegij" Type="Self.Kolegij" Multiplicity="0..1" />
+    <End Role="Studenti" Type="Self.Studenti" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kolegij">
+        <PropertyRef Name="KolegijId" />
+      </Principal>
+      <Dependent Role="Studenti">
+        <PropertyRef Name="KolegijId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StudentiDBEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Kolegij" EntityType="Self.Kolegij" />
+    <EntitySet Name="Studenti" EntityType="Self.Studenti" />
+    <AssociationSet Name="FK_Studenti_Kolegij" Association="Self.FK_Studenti_Kolegij">
+      <End Role="Kolegij" EntitySet="Kolegij" />
+      <End Role="Studenti" EntitySet="Studenti" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<StudentAppThree.Models.StudentViewModel>
+
+
+
+<table class="table table-sm">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Ime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prezime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OIB)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DatumRodenja)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prezime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OIB)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.DatumRodenja)*@
+                @item.DatumRodenja.ToShortDateString()
+            </td>
+        </tr>
+    }
+
+</table>

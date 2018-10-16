@@ -1,0 +1,11 @@
+KolegijId,Naziv,Trajanje
+1,Web Dizajn,120
+2,Raèunovodstvo,230
+3,Vrtlarstvo,260
+4,Financijska Ulaganja,100
+5,Biomehanika,270
+6,Elektrotehnika,260
+8,Klipni Motori,240
+9,Matematika,190
+10,Materijali,190
+11,Mehanika,240

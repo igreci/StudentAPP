@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+
+    <link href="~/Content/DataTable/css/jquery.dataTables.css" rel="stylesheet" />
+    <script src="~/Scripts/DataTable/jquery.dataTables.js"></script>
+
+</head>
+<body>
+    <div class="navbar navbar-expand-lg fixed-top bg-info">
+        <div class="container">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Naslovnica", "Index", "Home", new { @class = " text-dark pr-4" })</li>
+                    <li>@Html.ActionLink("Aplikacija", "AppIndex", "Home", new { @class = " text-dark" })</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <ul class="list-group mt-4">
+                <li class="list-group-item">Laoreet ac, aliquam sit amet justo nunc tempor, metus vel placerat suscipit, orci nisl iaculis eros, a tincidunt nisi odio eget lorem nulla condimentum tempor mattis ut vitae feugiat augue cras ut metus a risus iaculis scelerisque eu ac ante fusce non varius purus aenean nec magna felis fusce vestibulum.</li>
+                <li class="list-group-item">Dva</li>
+                <li class="list-group-item">Tri</li>
+                <li class="list-group-item">Četiri</li>
+            </ul>
+        </div>
+        <div class="container col-lg-10">
+            <div class=" body-content ">
+                @RenderBody()
+                <hr />
+
+            </div>
+        </div>
+
+    </div>
+    <div class="text-center">
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My Student Application</p>
+        </footer>
+    </div>
+
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

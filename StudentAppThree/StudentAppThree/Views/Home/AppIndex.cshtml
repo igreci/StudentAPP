@@ -1,0 +1,40 @@
+﻿@model StudentAppThree.Models.MainPageViewModel
+@{
+    ViewBag.Title = "AppIndex";
+}
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-lg-5">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4><span class="font-weight-bold font-italic">Studenti</span></h4>
+                </div>
+                <div class="card-body">
+                    @Html.Partial("_partialShowStudents", Model.StudentViewModel)
+                </div>
+            </div>
+            <div class="card-footer bg-info mb-3">
+                <p class="text-muted">Ogledna lista 10 studenata</p>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header bg-info">
+                    <h4><span class="font-weight-bold font-italic">Lista kolegija</span></h4>
+                </div>
+                <div class="card-body">
+                    @Html.Partial("_partialShowKolegije", Model.Kolegiji)
+                </div>
+            </div>
+            <div class="card-footer bg-info">
+                <p class="text-muted">Ogledna lista 10 kolegija</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    @Html.Partial("_partialShowAllPopis")
+</div>

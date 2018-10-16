@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StudentiDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kolegij">
+          <Key>
+            <PropertyRef Name="KolegijId" />
+          </Key>
+          <Property Name="KolegijId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Trajanje" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Popis">
+          <Key>
+            <PropertyRef Name="PopisId" />
+          </Key>
+          <Property Name="PopisId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KolegijId" Type="int" Nullable="false" />
+          <Property Name="StudentId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Studenti">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OIB" Type="nvarchar" MaxLength="11" Nullable="false" />
+          <Property Name="DatumRodenja" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Popis_Kolegij">
+          <End Role="Kolegij" Type="Self.Kolegij" Multiplicity="1" />
+          <End Role="Popis" Type="Self.Popis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kolegij">
+              <PropertyRef Name="KolegijId" />
+            </Principal>
+            <Dependent Role="Popis">
+              <PropertyRef Name="KolegijId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Popis_Studenti">
+          <End Role="Studenti" Type="Self.Studenti" Multiplicity="1" />
+          <End Role="Popis" Type="Self.Popis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studenti">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="Popis">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentiDBModelStoreContainer">
+          <EntitySet Name="Kolegij" EntityType="Self.Kolegij" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Popis" EntityType="Self.Popis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Studenti" EntityType="Self.Studenti" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Popis_Kolegij" Association="Self.FK_Popis_Kolegij">
+            <End Role="Kolegij" EntitySet="Kolegij" />
+            <End Role="Popis" EntitySet="Popis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Popis_Studenti" Association="Self.FK_Popis_Studenti">
+            <End Role="Studenti" EntitySet="Studenti" />
+            <End Role="Popis" EntitySet="Popis" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StudentiDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kolegij">
+          <Key>
+            <PropertyRef Name="KolegijId" />
+          </Key>
+          <Property Name="KolegijId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Trajanje" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Popis" Relationship="Self.FK_Popis_Kolegij" FromRole="Kolegij" ToRole="Popis" />
+        </EntityType>
+        <EntityType Name="Popis">
+          <Key>
+            <PropertyRef Name="PopisId" />
+          </Key>
+          <Property Name="PopisId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KolegijId" Type="Int32" Nullable="false" />
+          <Property Name="StudentId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kolegij" Relationship="Self.FK_Popis_Kolegij" FromRole="Popis" ToRole="Kolegij" />
+          <NavigationProperty Name="Studenti" Relationship="Self.FK_Popis_Studenti" FromRole="Popis" ToRole="Studenti" />
+        </EntityType>
+        <EntityType Name="Studenti">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OIB" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DatumRodenja" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Popis" Relationship="Self.FK_Popis_Studenti" FromRole="Studenti" ToRole="Popis" />
+        </EntityType>
+        <Association Name="FK_Popis_Kolegij">
+          <End Role="Kolegij" Type="Self.Kolegij" Multiplicity="1" />
+          <End Role="Popis" Type="Self.Popis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kolegij">
+              <PropertyRef Name="KolegijId" />
+            </Principal>
+            <Dependent Role="Popis">
+              <PropertyRef Name="KolegijId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Popis_Studenti">
+          <End Role="Studenti" Type="Self.Studenti" Multiplicity="1" />
+          <End Role="Popis" Type="Self.Popis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studenti">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="Popis">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentiDBEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kolegij" EntityType="Self.Kolegij" />
+          <EntitySet Name="Popis" EntityType="Self.Popis" />
+          <EntitySet Name="Studenti" EntityType="Self.Studenti" />
+          <AssociationSet Name="FK_Popis_Kolegij" Association="Self.FK_Popis_Kolegij">
+            <End Role="Kolegij" EntitySet="Kolegij" />
+            <End Role="Popis" EntitySet="Popis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Popis_Studenti" Association="Self.FK_Popis_Studenti">
+            <End Role="Studenti" EntitySet="Studenti" />
+            <End Role="Popis" EntitySet="Popis" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StudentiDBModelStoreContainer" CdmEntityContainer="StudentiDBEntities2">
+          <EntitySetMapping Name="Kolegij">
+            <EntityTypeMapping TypeName="StudentiDBModel.Kolegij">
+              <MappingFragment StoreEntitySet="Kolegij">
+                <ScalarProperty Name="KolegijId" ColumnName="KolegijId" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Trajanje" ColumnName="Trajanje" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Popis">
+            <EntityTypeMapping TypeName="StudentiDBModel.Popis">
+              <MappingFragment StoreEntitySet="Popis">
+                <ScalarProperty Name="PopisId" ColumnName="PopisId" />
+                <ScalarProperty Name="KolegijId" ColumnName="KolegijId" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Studenti">
+            <EntityTypeMapping TypeName="StudentiDBModel.Studenti">
+              <MappingFragment StoreEntitySet="Studenti">
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="OIB" ColumnName="OIB" />
+                <ScalarProperty Name="DatumRodenja" ColumnName="DatumRodenja" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

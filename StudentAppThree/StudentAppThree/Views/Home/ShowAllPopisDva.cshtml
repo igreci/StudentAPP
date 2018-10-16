@@ -1,0 +1,80 @@
+﻿@model StudentAppThree.Models.PopisViewModel
+@{
+    ViewBag.Title = "ShowAllPopisDva";
+}
+
+
+<h2>ShowAllPopisDva</h2>
+
+<table class="table table-hover" id="popisTable">
+    <thead>
+        <tr>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Naziv</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+
+<div>
+    @*@Html.Partial("_partialAddEdit", Model.PopisViewModels,null)*@
+    @{ 
+        Html.RenderPartial("_partialAddEdit", Model.PopisViewModels);
+    }
+</div>
+
+
+<ul>
+    @foreach (var item in Model.Popisi)
+    {
+        <li>@item.Studenti.Ime </li>
+        <li>@item.Kolegij.Naziv</li>
+    }
+
+</ul>
+
+
+<script>
+    $(document).ready(function () {
+
+        ShowAllPopisDvaJson();
+        //$("#popisTable").DataTable();
+
+    });
+
+    function ShowAllPopisDvaJson() {
+
+        $.ajax({
+
+            type: "GET",
+            url: "/Home/ShowAllPopisDvaJson",
+            success: function (response) {
+
+                BindDataTable(response);
+
+            }
+
+        })
+    }
+
+    function BindDataTable(response) {
+        debugger
+        $("#popisTable").DataTable({
+            
+            "aaData": response,
+            "aoColumns": [
+
+                { "mData": "Ime" }, 
+                { "mData": "Prezime" }, 
+                { "mData": "Naziv" }
+
+            ]
+
+        });
+
+    }
+</script>

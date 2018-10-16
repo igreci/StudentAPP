@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StudentiDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Kolegij">
+    <Key>
+      <PropertyRef Name="KolegijId" />
+    </Key>
+    <Property Name="KolegijId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Naziv" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Trajanje" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Popis">
+    <Key>
+      <PropertyRef Name="PopisId" />
+    </Key>
+    <Property Name="PopisId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="KolegijId" Type="int" Nullable="false" />
+    <Property Name="StudentId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Studenti">
+    <Key>
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="StudentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Prezime" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="OIB" Type="nvarchar" MaxLength="11" Nullable="false" />
+    <Property Name="DatumRodenja" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Popis_Kolegij">
+    <End Role="Kolegij" Type="Self.Kolegij" Multiplicity="1" />
+    <End Role="Popis" Type="Self.Popis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kolegij">
+        <PropertyRef Name="KolegijId" />
+      </Principal>
+      <Dependent Role="Popis">
+        <PropertyRef Name="KolegijId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Popis_Studenti">
+    <End Role="Studenti" Type="Self.Studenti" Multiplicity="1" />
+    <End Role="Popis" Type="Self.Popis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Studenti">
+        <PropertyRef Name="StudentId" />
+      </Principal>
+      <Dependent Role="Popis">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StudentiDBModelStoreContainer">
+    <EntitySet Name="Kolegij" EntityType="Self.Kolegij" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Popis" EntityType="Self.Popis" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Studenti" EntityType="Self.Studenti" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Popis_Kolegij" Association="Self.FK_Popis_Kolegij">
+      <End Role="Kolegij" EntitySet="Kolegij" />
+      <End Role="Popis" EntitySet="Popis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Popis_Studenti" Association="Self.FK_Popis_Studenti">
+      <End Role="Studenti" EntitySet="Studenti" />
+      <End Role="Popis" EntitySet="Popis" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,42 @@
+﻿@model StudentAppThree.Models.PopisViewModel
+
+<div>
+    <form id="addEditForm">
+        @Html.HiddenFor(model => model.PopisId)
+
+        @Html.DropDownListFor(model => model.KolegijId, ViewBag.Kolegij as SelectList, "-- Odaberi Kolegij--", new { @class = "form-Control" })
+
+        @Html.DropDownListFor(model => model.StudentId, ViewBag.Studenti as SelectList, "-- Odaberi Studenta --", new { @class = "form-Control" })
+
+        <a href="#" id="btnSubmit" class="btn btn-outline-primary">@if (Model.PopisId > 0)
+        { <span>Uredi postojeći</span>}
+        else { <span>Novi Upis</span>}</a>
+
+
+
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+
+            let addEditFormData = $("#addEditForm").serialize();
+
+            $.ajax({
+
+                type: "POST",
+                url: "/Home/AppIndex",
+                data: addEditFormData,
+                success: function () {
+                    $("#myModal").modal("hide");
+                    window.location.href = "/Home/AppIndex";
+                }
+
+            })
+
+        });
+
+    });
+</script>

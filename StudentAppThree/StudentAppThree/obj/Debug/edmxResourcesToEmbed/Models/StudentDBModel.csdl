@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StudentiDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Kolegij">
+    <Key>
+      <PropertyRef Name="KolegijId" />
+    </Key>
+    <Property Name="KolegijId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Trajanje" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Popis" Relationship="Self.FK_Popis_Kolegij" FromRole="Kolegij" ToRole="Popis" />
+  </EntityType>
+  <EntityType Name="Popis">
+    <Key>
+      <PropertyRef Name="PopisId" />
+    </Key>
+    <Property Name="PopisId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KolegijId" Type="Int32" Nullable="false" />
+    <Property Name="StudentId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Kolegij" Relationship="Self.FK_Popis_Kolegij" FromRole="Popis" ToRole="Kolegij" />
+    <NavigationProperty Name="Studenti" Relationship="Self.FK_Popis_Studenti" FromRole="Popis" ToRole="Studenti" />
+  </EntityType>
+  <EntityType Name="Studenti">
+    <Key>
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="StudentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Prezime" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="OIB" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DatumRodenja" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Popis" Relationship="Self.FK_Popis_Studenti" FromRole="Studenti" ToRole="Popis" />
+  </EntityType>
+  <Association Name="FK_Popis_Kolegij">
+    <End Role="Kolegij" Type="Self.Kolegij" Multiplicity="1" />
+    <End Role="Popis" Type="Self.Popis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kolegij">
+        <PropertyRef Name="KolegijId" />
+      </Principal>
+      <Dependent Role="Popis">
+        <PropertyRef Name="KolegijId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Popis_Studenti">
+    <End Role="Studenti" Type="Self.Studenti" Multiplicity="1" />
+    <End Role="Popis" Type="Self.Popis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Studenti">
+        <PropertyRef Name="StudentId" />
+      </Principal>
+      <Dependent Role="Popis">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StudentiDBEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Kolegij" EntityType="Self.Kolegij" />
+    <EntitySet Name="Popis" EntityType="Self.Popis" />
+    <EntitySet Name="Studenti" EntityType="Self.Studenti" />
+    <AssociationSet Name="FK_Popis_Kolegij" Association="Self.FK_Popis_Kolegij">
+      <End Role="Kolegij" EntitySet="Kolegij" />
+      <End Role="Popis" EntitySet="Popis" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Popis_Studenti" Association="Self.FK_Popis_Studenti">
+      <End Role="Studenti" EntitySet="Studenti" />
+      <End Role="Popis" EntitySet="Popis" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

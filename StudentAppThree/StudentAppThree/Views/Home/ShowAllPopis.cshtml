@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "ShowAllPopis";
+    var list = ViewBag.List;
+}
+
+<h2>ShowAllPopis</h2>
+
+<table>
+    <tr>
+        <th>Ime</th>
+        <th>Naziv</th>
+    </tr>
+    @foreach (var item in list)
+    {
+        <tr>
+            <td>@item.Studenti.Ime</td>
+            <td>@item.Kolegij.Naziv</td>
+        </tr>
+    }
+</table>
+
