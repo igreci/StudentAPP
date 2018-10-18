@@ -23,17 +23,17 @@
 <div>
     @*@Html.Partial("_partialAddEdit", Model.PopisViewModels,null)*@
     @{ 
-        Html.RenderPartial("_partialAddEdit", Model.PopisViewModels);
+       // Html.RenderPartial("_partialAddEdit", Model.PopisViewModels);
     }
 </div>
 
 
 <ul>
-    @foreach (var item in Model.Popisi)
+    @*@foreach (var item in Model.Popisi)
     {
         <li>@item.Studenti.Ime </li>
         <li>@item.Kolegij.Naziv</li>
-    }
+    }*@
 
 </ul>
 

@@ -14,6 +14,19 @@ namespace StudentAppThree.Models
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public string Naziv { get; set; }
+        public string PunoIme
+        {
+            get
+            {
+                return this.Ime + " " + this.Prezime;
+            }
+        }
+
+        public IEnumerable<StudentViewModel> StudentList { get; set; }
+        public IEnumerable<KolegijViewModel> KolegijList { get; set; }
+
+        public KolegijViewModel KolegijViewModelMember { get; set; }
+        public StudentViewModel StudentViewModelMember { get; set; }
 
         public virtual Kolegij Kolegij { get; set; }
         public virtual Studenti Studenti { get; set; }

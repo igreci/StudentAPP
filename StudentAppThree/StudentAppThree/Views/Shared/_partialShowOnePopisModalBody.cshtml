@@ -1,0 +1,29 @@
+﻿@model StudentAppThree.Models.MainPageViewModel
+<div>
+    <table>
+        @foreach (var item in Model.PopisViewModels)
+        {
+            @*<tr>
+                <td>Naziv kolegija:</td>
+                <td>@item.Naziv</td>
+            </tr>
+            <tr>
+                <td>Prezime Studenta:</td>
+                <td>@item.Prezime</td>
+            </tr>
+            <tr>
+                <td>Id Popisa:</td>
+                <td>@item.PopisId</td>
+            </tr>*@
+            <tr>
+                <td>Odaberi Studenta</td>
+                <td>@Html.DropDownListFor(x => x.StudentViewModel, new SelectList(Model.StudentViewModel, "StudentId", "PunoIme"))</td>
+            </tr>
+            <tr>
+                <td>Odaberi kolegij</td>
+                <td>@Html.DropDownListFor(x => x.KolegijViewModel, new SelectList(Model.KolegijViewModel, "KolegijId", "Naziv"))</td>
+            </tr>
+
+        }
+    </table>
+</div>

@@ -29,11 +29,11 @@ namespace StudentAppThree.Models
         [Description("Date of Birth")]
         public DateTime DatumRodenja { get; set; }
 
-        public string PunoIme { get; set; }
-
-        public StudentViewModel()
-        {
-            PunoIme = this.Ime + " " + this.Prezime;
+        public string PunoIme {
+            get
+            {
+                return this.Ime + " " + this.Prezime;
+            }
         }
     }
 }

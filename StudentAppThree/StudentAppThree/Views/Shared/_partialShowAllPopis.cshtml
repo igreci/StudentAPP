@@ -6,19 +6,20 @@
 
 <h2 class="mt-3">Popis studenata i kolegija</h2>
 
-<table class="table table-hover" id="popisTable">
-    <thead class="bg-info">
-        <tr>
-            <th>Ime</th>
-            <th>Prezime</th>
-            <th>Naziv</th>
-            <th>Uredi</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+<div class="col-10">
+    <table class="table table-hover" id="popisTable">
+        <thead class="bg-info">
+            <tr>
+                <th>Ime I Prezime</th>
+                <th>Naziv</th>
+                <th>Uredi</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 
-<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addEditFormModal" ></a>
+@*<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#addEditFormModal"></a>*@
 
 <div id="addEditFormModal" class="modal fade">
     <div class="modal-dialog">
@@ -27,12 +28,27 @@
                 <h3 class="modal-title">Uredi Popis</h3>
                 <a href="#" class="close" data-dismiss="modal">&times;</a>
             </div>
-            <div class="modal-body">
-                @Html.Partial("_partialAddEdit")
+            <div class="modal-body" id="myModalBodyDiv">
+                @*<form id="addEditForm">
+                    @Html.HiddenFor(model => model.MyProperty.PopisId)
+
+                    @Html.TextBoxFor(model => model.MyProperty.Studenti.Prezime)
+
+                    @Html.DropDownListFor(model => model.MyProperty.KolegijId, ViewBag.Kolegij as SelectList, "-- Odaberi Kolegij--", new { @class = "form-Control" })
+
+                        @Html.DropDownListFor(model => model.MyProperty.StudentId, ViewBag.Studenti as SelectList, "-- Odaberi Studenta --", new { @class = "form-Control" })
+
+                    @*<a href="#" id="btnSubmit" class="btn btn-outline-primary">
+                        @if (Model.MyProperty.PopisId > 0)
+                        {<span>Uredi postojeći</span>}
+                        else
+                        { <span>Novi Upis</span>}
+                    </a>
+                </form>*@
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-outline-warning" data-dismiss="modal">Odustani</a>
-                <a href="#" class="btn btn-outline-success" data-dismiss="modal">Spremi</a>
+                <a href="#" class="btn btn-outline-success">Spremi</a>
             </div>
         </div>
     </div>
@@ -62,27 +78,71 @@
     }
 
     function BindDataTable(response) {
-        debugger
+        //debugger
         $("#popisTable").DataTable({
 
             "aaData": response,
             "aoColumns": [
 
-                { "mData": "Ime" },
-                { "mData": "Prezime" },
+                //{ "mData": "Ime" },
+                //{ "mData": "Prezime" },
+                
+                { "mData": "PunoIme" },
                 { "mData": "Naziv" },
                 {
                     "mData": "PopisId",
                     "render": function (PopisId, type, full, meta) {
 
-                        return '<a href="#" onclick="AddEditPopis(' + PopisId + ')"><i class="fa fa-pencil"></i></a>';
+                        return '<a href="#" onclick="AddEditPopis(' + PopisId + ')"><i class="fa fa-pencil"></i></a><a href="#" onclick="ShowOnePopis(' + PopisId +')">Uredi ' + PopisId +'</a>';
 
                     }
                 }
-
+                
             ]
 
         });
 
+    }
+
+    function AddEditPopis(id) {
+        console.log("Radi....");
+        console.log(id);
+        debugger
+        $.ajax({
+            type: "GET",
+            url: "/Home/AddEditStudentDva",
+            data: id,
+            success: function (response) {
+
+                console.log("Radi I OVOO....");
+                debugger
+            }
+
+        })
+
+    }
+
+    function ShowOnePopis(id) {
+        console.log(id);
+        
+        console.log("Id do sad " + id);
+        $.ajax({
+
+            type: "POST",
+            url: "/Home/ShowOnePopis",
+            data: { popisId: id},
+            success: function (result) {
+                //debugger
+                $("#myModalBodyDiv").html(result);
+                $("#addEditFormModal").modal("show");
+                //debugger
+                console.log("Test Radi");
+
+            },
+            error: function (message) {
+                console.log(message.responseText);
+            }
+
+        })
     }
 </script>

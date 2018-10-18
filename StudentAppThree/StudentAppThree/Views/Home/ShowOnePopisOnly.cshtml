@@ -1,0 +1,16 @@
+﻿@model IEnumerable<StudentAppThree.Models.PopisViewModel>
+<div>
+    <table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>Naziv kolegija:</td>
+                <td>@item.Naziv</td>
+            </tr>
+            <tr>
+                <td>Prezime Studenta:</td>
+                <td>@item.Prezime</td>
+            </tr>
+        }
+    </table>
+</div>

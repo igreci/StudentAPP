@@ -171,10 +171,12 @@
     <Compile Include="Models\Kolegij.cs">
       <DependentUpon>StudentDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\KolegijViewModel.cs" />
     <Compile Include="Models\MainPageViewModel.cs" />
     <Compile Include="Models\Popis.cs">
       <DependentUpon>StudentDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PopisMainViewModel.cs" />
     <Compile Include="Models\PopisViewModel.cs" />
     <Compile Include="Models\Range1To3Validation.cs" />
     <Compile Include="Models\StudentDBModel.Context.cs">
@@ -342,6 +344,8 @@
     <Content Include="Views\Shared\_partialShowAllPopis.cshtml" />
     <Content Include="Views\Shared\_partialPopisForm.cshtml" />
     <Content Include="Views\Home\AddEditView.cshtml" />
+    <Content Include="Views\Shared\_partialShowOnePopisModalBody.cshtml" />
+    <Content Include="Views\Home\ShowOnePopisOnly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
