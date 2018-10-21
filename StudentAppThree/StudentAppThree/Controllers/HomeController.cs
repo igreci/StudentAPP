@@ -62,6 +62,44 @@ namespace StudentAppThree.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult AppIndex(int? IdForPopis, int? StudentViewModel, int? KolegijViewModel)
+        {
+            var popisInDB = _db.Popis.Include("Kolegij").Include("Studenti").Where(x => x.PopisId == IdForPopis).SingleOrDefault();
+
+
+            if (IdForPopis > 0 && popisInDB != null)  // 
+            {
+                Popis popis = _db.Popis.Where(x => x.PopisId == IdForPopis).SingleOrDefault();
+
+                popis.KolegijId = (int)KolegijViewModel;
+                popis.StudentId = (int)StudentViewModel;
+
+                _db.SaveChanges();
+            }
+            else
+            {
+                Popis popis = new Popis();
+
+                popis.KolegijId = (int)KolegijViewModel;
+                popis.StudentId = (int)StudentViewModel;
+
+                _db.Popis.Add(popis);
+                _db.SaveChanges();
+            }
+
+
+            var viewModel = new MainPageViewModel();
+
+            List<Studenti> list = _db.Studenti.Where(x => x.IsDeleted == false).Take(10).ToList();
+            IEnumerable<StudentViewModel> studentiVMList = list.Select(Mapper.Map<Studenti, StudentViewModel>);
+
+            viewModel.StudentViewModel = studentiVMList;
+            viewModel.Kolegiji = _db.Kolegij.ToList();
+
+            return View(viewModel);
+        }
+
         public ActionResult ShowAllPopis()
         {
             var list = _db.Popis.Include("Kolegij").Include("Studenti").ToList();
@@ -200,6 +238,9 @@ namespace StudentAppThree.Controllers
         {
             MainPageViewModel model = new MainPageViewModel();
 
+
+            model.MyProperty = new PopisViewModel();
+
             var popis = _db.Popis.Include("Kolegij").Include("Studenti").SingleOrDefault(x => x.PopisId == popisId);
 
             ViewBag.Popis = popis;
@@ -237,8 +278,10 @@ namespace StudentAppThree.Controllers
             }).ToList();
 
             viewModel.StudentViewModel = listS;
+            //viewModel.MyProperty.PopisId = popisId;
 
             ViewBag.Studenti = listS;
+            viewModel.IdForPopis = popisId;
 
             //return PartialView("_partialShowOnePopisModalBody", model);
             return PartialView("_partialShowOnePopisModalBody", viewModel);

@@ -20,10 +20,26 @@
         else
         { <span>Novi Upis</span>}
     </a>
-
-
-
 </form>
+
+
+<script>
+
+    $(document).ready(function () {
+        debugger
+        $("#btnSubmit").click(function () {
+            debugger
+            console.log("Clicked");
+            let addEditFormData = $("#addEditForm").serialize();
+
+           
+            console.log(addEditFormData);
+
+        });
+
+    });
+
+</script>
 
 @*<script>
         $(document).ready(function () {

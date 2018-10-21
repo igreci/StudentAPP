@@ -1,29 +1,69 @@
 ﻿@model StudentAppThree.Models.MainPageViewModel
 <div>
-    <table>
+    @*<table>
         @foreach (var item in Model.PopisViewModels)
         {
-            @*<tr>
-                <td>Naziv kolegija:</td>
-                <td>@item.Naziv</td>
-            </tr>
-            <tr>
-                <td>Prezime Studenta:</td>
-                <td>@item.Prezime</td>
-            </tr>
-            <tr>
-                <td>Id Popisa:</td>
-                <td>@item.PopisId</td>
-            </tr>*@
             <tr>
                 <td>Odaberi Studenta</td>
-                <td>@Html.DropDownListFor(x => x.StudentViewModel, new SelectList(Model.StudentViewModel, "StudentId", "PunoIme"))</td>
+                <td>@Html.DropDownListFor(x => x.StudentViewModel, new SelectList(Model.StudentViewModel, "StudentId", "Prezime"))</td>
             </tr>
             <tr>
                 <td>Odaberi kolegij</td>
                 <td>@Html.DropDownListFor(x => x.KolegijViewModel, new SelectList(Model.KolegijViewModel, "KolegijId", "Naziv"))</td>
             </tr>
-
+            <tr>
+                <td>Id Popisa:</td>
+                <td>@item.PopisId</td>
+                <td>@Model.IdForPopis</td>
+            </tr>
         }
-    </table>
+    </table>*@
+
+    <form id="addEditSecondForm">
+        @Html.HiddenFor(model => model.IdForPopis)
+        @Html.LabelForModel("Odaberi Studenta")
+        @Html.DropDownListFor(x => x.StudentViewModel, new SelectList(Model.StudentViewModel, "StudentId", "PunoIme"))
+
+        <br />
+
+        @Html.LabelForModel("Odaberi kolegij")
+        @Html.DropDownListFor(x => x.KolegijViewModel, new SelectList(Model.KolegijViewModel, "KolegijId", "Naziv"))
+
+
+        <a href="#" id="btnSubmit" class="btn btn-outline-primary float-right">Spremi</a>
+
+        @*<a href="#" id="btnSubmit" class="btn btn-outline-primary">
+            @if (Model.MyProperty.PopisId > 0)
+            {<span>Uredi postojeći</span>}
+            else
+            { <span>Novi Upis</span>}
+        </a>*@
+    </form>
 </div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+
+            console.log("This is from form");
+            var thisData = $("#addEditSecondForm").serialize();
+
+            console.log(thisData);
+            $("#addEditFormModal").modal("hide");
+            $.ajax({
+
+                type: "POST",
+                url: "/Home/AppIndex",
+                data: thisData,
+                success: function () {
+                    console.log("It is saved to DB");
+                    $("#addEditFormModal").modal("hide");
+                    window.location.href = "/Home/AppIndex";
+                }
+
+            })
+        });
+
+    });
+</script>
