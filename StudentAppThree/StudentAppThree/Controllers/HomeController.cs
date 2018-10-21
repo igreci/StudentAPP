@@ -62,30 +62,45 @@ namespace StudentAppThree.Controllers
         }
 
 
+        /// <summary>
+        /// Saves new or edited record 
+        /// </summary>
+        /// <param name="IdForPopis">Popis Id</param>
+        /// <param name="StudentViewModel">Student Id</param>
+        /// <param name="KolegijViewModel">Kolegij Id</param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult AppIndex(int? IdForPopis, int? StudentViewModel, int? KolegijViewModel)
         {
             var popisInDB = _db.Popis.Include("Kolegij").Include("Studenti").Where(x => x.PopisId == IdForPopis).SingleOrDefault();
 
 
-            if (IdForPopis > 0 && popisInDB != null)  // 
+            try
             {
-                Popis popis = _db.Popis.Where(x => x.PopisId == IdForPopis).SingleOrDefault();
+                if (IdForPopis > 0 && popisInDB != null)  // 
+                {
+                    Popis popis = _db.Popis.Where(x => x.PopisId == IdForPopis).SingleOrDefault();
 
-                popis.KolegijId = (int)KolegijViewModel;
-                popis.StudentId = (int)StudentViewModel;
+                    popis.KolegijId = (int)KolegijViewModel;
+                    popis.StudentId = (int)StudentViewModel;
 
-                _db.SaveChanges();
+                    _db.SaveChanges();
+                }
+                else
+                {
+                    Popis popis = new Popis();
+
+                    popis.KolegijId = (int)KolegijViewModel;
+                    popis.StudentId = (int)StudentViewModel;
+
+                    _db.Popis.Add(popis);
+                    _db.SaveChanges();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Popis popis = new Popis();
 
-                popis.KolegijId = (int)KolegijViewModel;
-                popis.StudentId = (int)StudentViewModel;
-
-                _db.Popis.Add(popis);
-                _db.SaveChanges();
+                throw ex;
             }
 
 
@@ -99,6 +114,38 @@ namespace StudentAppThree.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        public ActionResult DeleteRecord(int id)
+        {
+            try
+            {
+                var hasRecord = _db.Popis.Where(x => x.PopisId == id).SingleOrDefault();
+
+                if (hasRecord != null)
+                {
+                    _db.Popis.Remove(hasRecord);
+                    _db.SaveChanges();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            var viewModel = new MainPageViewModel();
+
+            List<Studenti> list = _db.Studenti.Where(x => x.IsDeleted == false).Take(10).ToList();
+            IEnumerable<StudentViewModel> studentiVMList = list.Select(Mapper.Map<Studenti, StudentViewModel>);
+
+            viewModel.StudentViewModel = studentiVMList;
+            viewModel.Kolegiji = _db.Kolegij.ToList();
+
+            return View(viewModel);
+        }
+
 
         public ActionResult ShowAllPopis()
         {
